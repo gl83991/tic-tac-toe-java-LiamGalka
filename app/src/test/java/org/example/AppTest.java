@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppTest {
   @Test
   void appHasAGreeting() {
-    App classUnderTest = new App();
+    Constants classUnderTest = new Constants();
     assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
   }
-}
+} // Make all testers for all the classes to check logic of the game
