@@ -15,6 +15,7 @@ public class InputHandler {
         line = line.trim();
         if (line.isEmpty()) return -1;
 
+        
         for (char c : line.toCharArray()) {
             if (!Character.isDigit(c)) {
                 return -1;

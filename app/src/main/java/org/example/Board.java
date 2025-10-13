@@ -24,7 +24,7 @@ public class Board {
     }
     public boolean isFull() {
         for (char c : cells) {
-            if (c == Constants.EMPTY) 
+            if (c == Constants.EMPTY)
             return false;
         }
         return true;

@@ -18,12 +18,15 @@ public class Game {
         while (playAgain) {
             board.clear();
             runSingleGame();
-            Boolean yn = input.readYesNo("Play again? (y/n): ");
+            Boolean yn;
+            do { 
+            yn = input.readYesNo("Play again? (y/n): ");
             if (yn == null) {
                 System.out.println("Invalid input, try again.");
-                yn = false; //set reprompter here
             }
-            playAgain = yn;
+        } while (yn == null);
+        playAgain = yn;
+
         }
         System.out.println("Thanks for playing!");
     }
@@ -58,7 +61,4 @@ public class Game {
             current = (current == playerX) ? playerO : playerX;
         }
     }
-    // Additional helper methods can be added here
-    // invalid move handling
-    // reprompting for yes/no
 }
