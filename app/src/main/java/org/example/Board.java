@@ -58,7 +58,7 @@ public class Board {
             }
             sb.append(System.lineSeparator());
             if (row < 2)
-            sb.append("-----+-----+-----").append(System.lineSeparator());
+            sb.append("---+---+---").append(System.lineSeparator());
         }
         return sb.toString();
     }

@@ -9,10 +9,10 @@ public class Game {
     private final Player playerO;
     private final InputHandler input;
     // New counter and first player tracking
-    private int xWins = 0;
-    private int oWins = 0;
-    private int ties = 0;
-    private Player firstPlayer;
+    public int xWins = 0;
+    public int oWins = 0;
+    public int ties = 0;
+    public Player firstPlayer;
 
     public Game(InputHandler input) {
         this.board = new Board();
@@ -55,7 +55,7 @@ public class Game {
     }
 
     // Method to save game log to a file
-    private Player runSingleGame() {
+    public Player runSingleGame() {
         Player current = firstPlayer;
         while (true) {
             System.out.println();
@@ -93,7 +93,7 @@ public class Game {
     }
 
     // Method to save game log to a file
-    private void saveLogToFile() {
+    public void saveLogToFile() {
         try (FileWriter writer = new FileWriter("game.txt")){
             writer.write("Final Game State:\n");
             writer.write("Player X wins: " + xWins + "\n");
