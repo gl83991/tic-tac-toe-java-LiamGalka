@@ -62,4 +62,22 @@ public class Board {
         }
         return sb.toString();
     }
+
+    public void placeTempMark(int position,char mark) {
+        cells[position - 1] = mark;
+    }
+
+    public void undoTempMark(int position) {
+        cells[position - 1] = Constants.EMPTY;
+    }
+
+    public int countMarks() {
+        int count = 0;
+        for (char c : cells) {
+            if (c != Constants.EMPTY) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

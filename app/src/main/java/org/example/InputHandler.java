@@ -38,4 +38,15 @@ public class InputHandler {
         if (line.equals("n") || line.equals("no")) return false;
         return null;
     }
+
+    public int readMenuOption(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String line = scanner.nextLine().trim();
+            if (line.matches("[1-3]")) {
+                return Integer.parseInt(line);
+            }
+            System.out.println("Invalid selection. Please choose 1, 2 , or 3.");
+        }
+    }
 }

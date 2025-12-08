@@ -14,6 +14,10 @@ public class Game {
     public int ties = 0;
     public Player firstPlayer;
 
+    private ComputerPlayer computerPlayer;
+    private boolean vsComputer = false;
+    private boolean computerFirst = false;
+
     public Game(InputHandler input) {
         this.board = new Board();
         this.input = input;
@@ -23,35 +27,64 @@ public class Game {
     }
     public void start() {
         System.out.println("Welcome to Tic-Tac-Toe!");
-        boolean playAgain = true;
+        Boolean playAgain = true;
+        
         while (playAgain) {
-            board.clear();
-            Player loser = runSingleGame();
-            // Determine winner and update stats
-            System.out.println("\nCurrent game stats: ");
-            System.out.println("Player X wins: " + xWins);
-            System.out.println("Player O wins: " + oWins);
-            System.out.println("Ties: " + ties);
-            
-            Boolean yn;
-            do { 
-            yn = input.readYesNo("Play again? (y/n): ");
+        System.out.println("\nWhat Kind of game would you like to play?");
+        System.out.println("1. Human vs Human");
+        System.out.println("2. Human vs Computer");
+        System.out.println("3. Computer vs Human");
+
+        int selection = input.readMenuOption("What is your selection? ");
+
+        if (selection == 1) {
+            vsComputer = false;
+            computerFirst = false;
+            computerPlayer = null;
+            firstPlayer = playerX;
+        }
+        else if (selection ==2) {
+            vsComputer = true;
+            computerFirst = false;
+            computerPlayer = new ComputerPlayer("Computer", Constants.PLAYER_O);
+            firstPlayer = playerX;
+        }
+        else if (selection == 3) {
+            vsComputer = true;
+            computerFirst = true;
+            computerPlayer = new ComputerPlayer("Computer", Constants.PLAYER_X);
+            firstPlayer = computerPlayer;
+        }
+
+        board.clear();
+
+        Player loser = runSingleGame();
+
+        System.out.println("\nCurrent game stats: ");
+        System.out.println("Player X wins: " + xWins);
+        System.out.println("Player O wins: " + oWins);
+        System.out.println("Ties: " + ties);
+
+        Boolean yn;
+        do {
+            yn = input.readYesNo("Would you like to play again? (y/n): ");
             if (yn == null) {
-                System.out.println("Invalid input, try again.");
+                System.out.println("Invalid input. Please enter 'y' or 'n'.");
             }
         } while (yn == null);
+
         playAgain = yn;
 
-        // Update first player for next game
+        if(!playAgain) {
+            saveLogToFile();
+        } else {
+
         if (loser != null) {
             firstPlayer = loser;
-            System.out.println(firstPlayer.getName() + " will go first next game.");
+            System.out.println(firstPlayer.getName() + " will go first in the next game.");
+                } 
+            }
         }
-    }
-        // After exiting the loop, save the log
-        saveLogToFile();
-
-        System.out.println("Thanks for playing!");
     }
 
     // Method to save game log to a file
@@ -62,7 +95,14 @@ public class Game {
             System.out.println(board.render());
             System.out.println();
 
-            int pos = input.readCellPosition("What is your move? ");
+            int pos;
+
+            if (vsComputer && current instanceof ComputerPlayer) {
+                pos = ((ComputerPlayer) current).chooseMove(board, (current.getMark() == Constants.PLAYER_X) ? Constants.PLAYER_O : Constants.PLAYER_X);
+                System.out.println("Computer chooses: " + pos);
+            } else {
+                pos = input.readCellPosition("What is your move? ");
+            }
             if (!MoveValidator.isValidMove(board, pos)) {
                 System.out.println();
                 System.out.println("Invalid move, try again.");
@@ -89,6 +129,11 @@ public class Game {
                 return null;
             }
             current = (current == playerX) ? playerO : playerX;
+
+            if (vsComputer && computerFirst) {
+                if (current.getMark() == computerPlayer.getMark()) {
+                }
+            }
         }
     }
 
